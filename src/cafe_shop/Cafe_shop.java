@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package cafe_shop;
-
+import utils.customHooks;
 /**
  *
  * @author U
@@ -15,7 +15,9 @@ public class Cafe_shop {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        landingPage page = new landingPage();
+        
+        page.setVisible(true);
     }
     
 }
