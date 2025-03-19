@@ -16,18 +16,19 @@ import javax.swing.table.DefaultTableModel;
 import utils.customHooks;
 import types.*;
 import java.util.*;
+import backend.customerBackend;
 
 import backend.productBackend;
 
 public class menu extends javax.swing.JFrame {
     
     private customer myCustomer;
+    private productBackend productClass = new productBackend();
+    private customerBackend customerBackend = new customerBackend();
  
     public menu(customer parameter) {
         initComponents();
         this.myCustomer = parameter;
-        
-        productBackend productClass = new productBackend();
         
         ArrayList<product> products = productClass.getProducts();
         
@@ -86,8 +87,9 @@ public class menu extends javax.swing.JFrame {
                 
                 DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                 model.addRow(new Object[]{id, name, quantity, price, total});
-             
+            
                 
+                updateTotal();
             });
 
             // Add components to panel
@@ -100,34 +102,40 @@ public class menu extends javax.swing.JFrame {
             
             menuContainer.add(productPanel);
             
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        }     
         
     }
+    
+    public void updateTotal()
+    {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int rowCount = model.getRowCount(); // Get total rows
+        
+        int total = 0;
 
+        for (int i = 0; i < rowCount; i++) {
+            Object value = model.getValueAt(i, 4); // 2 is the index of the third column
+            System.out.println(value); // Print or store the value
+            total += Integer.parseInt(value.toString());;
+        }
+        
+        totalVariable.setText(String.valueOf(total));
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        proceedToPayment = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        totalVariable = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         menuContainer = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,13 +146,18 @@ public class menu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("proceed to payment");
+        proceedToPayment.setText("proceed to payment");
+        proceedToPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                proceedToPaymentActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setText("total: ");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setText("0");
+        totalVariable.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        totalVariable.setText("0");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel3.setText("Seranatea Cafe");
@@ -182,6 +195,13 @@ public class menu extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(menuContainer);
 
+        jButton3.setText("remove");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,30 +218,33 @@ public class menu extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                    .addComponent(proceedToPayment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addComponent(totalVariable)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                        .addComponent(jButton3)))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(jLabel1)
-                        .addComponent(jLabel2)))
+                        .addComponent(totalVariable))
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(proceedToPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -232,6 +255,34 @@ public class menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int selectedRow = jTable2.getSelectedRow(); // Get selected row
+
+        if (selectedRow != -1) { // If a row is selected
+            model.removeRow(selectedRow);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a row to remove.");
+        }
+        
+        updateTotal();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void proceedToPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedToPaymentActionPerformed
+        
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int rowCount = model.getRowCount(); // Get total rows
+        
+        for (int i = 0; i < rowCount; i++) {
+            int product_id = Integer.parseInt(model.getValueAt(i, 0).toString());
+            int qty = Integer.parseInt(model.getValueAt(i, 2).toString()); // 2 is the index of the third column
+            productClass.saveSoldItem(product_id, qty);
+        }
+        
+        customHooks.alert("success", "order placed. please proceed to payment");
+        
+    }//GEN-LAST:event_proceedToPaymentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,13 +321,14 @@ public class menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel menuContainer;
+    private javax.swing.JButton proceedToPayment;
+    private javax.swing.JLabel totalVariable;
     // End of variables declaration//GEN-END:variables
 }

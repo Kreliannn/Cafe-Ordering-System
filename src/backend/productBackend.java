@@ -35,4 +35,17 @@ public class productBackend extends database{
         return products;
     }
     
+    public void saveSoldItem(int product_id, int quantity)
+    {
+        try{
+            String sql = "INSERT INTO order_item (product_id, quantity) VALUES ( ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, product_id);
+            stmt.setInt(2, quantity);
+            stmt.executeUpdate();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
 }
