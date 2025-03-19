@@ -1,20 +1,30 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package backend;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import types.customer;
 
-public class customerBackend extends database{
+/**
+ *
+ * @author U
+ */
+public class orderBackend extends database {
     
-    public void addAccount(String name, String username, String password)
+    public void addOrders(int customer_id, int total_amount, String order_date, String order_status)
     {
         try{
-            String sql = "INSERT INTO customer (name, username, password) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO orders (customer_id, employee_id, total_amount, date, order_status) VALUES (?,?,?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, name);
-            stmt.setString(2, username);
-            stmt.setString(3, password);
+            stmt.setInt(1, customer_id);
+            stmt.setInt(2, 1); // test
+            stmt.setInt(3, total_amount);
+            stmt.setString(4,order_date);
+            stmt.setString(4,order_status);
             stmt.executeUpdate();
         } catch(Exception e){
             System.out.println(e);

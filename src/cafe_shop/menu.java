@@ -17,14 +17,16 @@ import utils.customHooks;
 import types.*;
 import java.util.*;
 import backend.customerBackend;
-
+import backend.orderBackend;
 import backend.productBackend;
+import java.time.LocalDate;
 
 public class menu extends javax.swing.JFrame {
     
     private customer myCustomer;
     private productBackend productClass = new productBackend();
     private customerBackend customerBackend = new customerBackend();
+    private orderBackend orderClass = new orderBackend();
  
     public menu(customer parameter) {
         initComponents();
@@ -271,6 +273,10 @@ public class menu extends javax.swing.JFrame {
 
     private void proceedToPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedToPaymentActionPerformed
         
+        LocalDate currentDate = LocalDate.now();
+        String date = currentDate.toString();
+        int total = Integer.parseInt(totalVariable.getText()) ;
+        
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount(); // Get total rows
         
@@ -280,8 +286,11 @@ public class menu extends javax.swing.JFrame {
             productClass.saveSoldItem(product_id, qty);
         }
         
+        orderClass.addOrders(myCustomer.getCustomerId() , total , date, "waiting");
+        
         customHooks.alert("success", "order placed. please proceed to payment");
         
+        model.setRowCount(0);
     }//GEN-LAST:event_proceedToPaymentActionPerformed
 
     /**
