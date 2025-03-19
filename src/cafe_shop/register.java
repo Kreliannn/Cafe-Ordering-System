@@ -6,6 +6,7 @@
 package cafe_shop;
 import utils.customHooks;
 import types.customer;
+import backend.customerBackend;
 /**
  *
  * @author U
@@ -118,7 +119,9 @@ public class register extends javax.swing.JFrame {
        String usernameVal = username.getText();
        String passwordVal = password.getText();
        
+       customerBackend customerClass = new customerBackend();
        
+       customerClass.addAccount(nameVal, usernameVal, passwordVal);
        
        customHooks.alert("success", "account created");
        

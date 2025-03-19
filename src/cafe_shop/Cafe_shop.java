@@ -5,6 +5,7 @@
  */
 package cafe_shop;
 import utils.customHooks;
+import backend.customerBackend;
 /**
  *
  * @author U
@@ -17,7 +18,9 @@ public class Cafe_shop {
     public static void main(String[] args) {
         landingPage page = new landingPage();
         
-        page.setVisible(true);
+       page.setVisible(true);
+       //customerBackend test = new customerBackend();
+      
     }
     
 }

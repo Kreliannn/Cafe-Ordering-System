@@ -6,18 +6,24 @@ import java.sql.SQLException;
 
 
 public class database {
-    private Connection conn;
-
+    protected Connection conn;
+    protected String name = "krel";
     // Constructor - Establishes Connection
     public database() {
         try {
             conn = DriverManager.getConnection(
-            "jdbc:mysql://127.0.0.1:3306/pos_schema",
+            "jdbc:mysql://127.0.0.1:3306/seranatea",
             "root",
             "impoyski0501"
             );
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    
+    public void test()
+    {
+        System.out.println("working");
     }
 }
