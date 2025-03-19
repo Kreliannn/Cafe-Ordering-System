@@ -102,7 +102,7 @@ public class login extends javax.swing.JFrame {
         
         if(loginCustomer.getCustomerId() != 0)
         {
-            customHooks.changeFrame(this, new landingPage());
+            customHooks.changeFrame(this, new menu(loginCustomer));
         }
         else
         {
