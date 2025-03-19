@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.JOptionPane;
 
 public class customHooks {
@@ -32,6 +33,12 @@ public class customHooks {
                 JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
             break;
         }
+    }
+    
+    public static void changeFrame(JFrame currentPage, JFrame newPage) {
+      currentPage.dispose(); // Close the current frame
+      newPage.setLocationRelativeTo(null); // Center the new frame
+      newPage.setVisible(true); // Show the new frame
     }
     
     public static void imageUpload()
