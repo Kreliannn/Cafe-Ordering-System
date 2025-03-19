@@ -5,6 +5,7 @@
  */
 package cafe_shop;
 import utils.customHooks;
+import types.customer;
 /**
  *
  * @author U
@@ -116,6 +117,8 @@ public class register extends javax.swing.JFrame {
        String nameVal = name.getText();
        String usernameVal = username.getText();
        String passwordVal = password.getText();
+       
+       
        
        customHooks.alert("success", "account created");
        
