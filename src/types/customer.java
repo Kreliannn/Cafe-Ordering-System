@@ -10,19 +10,19 @@ package types;
  * @author U
  */
 public class customer {
-    private int employeeId;
+    private int customerId;
     private String name;
     private String username;
     private String password;
 
-    public customer(int employeeId, String name, String username, String password) {
-        this.employeeId = employeeId;
+    public customer(int customerId, String name, String username, String password) {
+        this.customerId = customerId;
         this.name = name;
         this.username = username;
         this.password = password;
     }
 
-    public int getEmployeeId() { return employeeId; }
+    public int getCustomerId() { return customerId; }
     public String getName() { return name; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
