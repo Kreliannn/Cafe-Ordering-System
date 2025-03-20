@@ -14,6 +14,10 @@ public class employee {
     private String name;
     private String username;
     private String password;
+    
+      public employee() {
+      
+    }
 
     public employee(int employeeId, String name, String username, String password) {
         this.employeeId = employeeId;

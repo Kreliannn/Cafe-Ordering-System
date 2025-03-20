@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package cafe_shop;
-
+import types.employee;
 /**
  *
  * @author U
@@ -14,7 +14,7 @@ public class cashierPage extends javax.swing.JFrame {
     /**
      * Creates new form cashierPage
      */
-    public cashierPage() {
+    public cashierPage(employee params) {
         initComponents();
     }
 
@@ -100,7 +100,7 @@ public class cashierPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new cashierPage().setVisible(true);
+                new cashierPage(new employee()).setVisible(true);
             }
         });
     }
