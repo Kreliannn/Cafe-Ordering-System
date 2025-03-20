@@ -46,7 +46,7 @@ public class menu extends javax.swing.JFrame {
             productPanel.setPreferredSize(new Dimension(150, 220)); // Adjusted height
             productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Border
             
-           ImageIcon icon = new ImageIcon(getClass().getResource("/image/" + "coffeePic.jpg"));
+           ImageIcon icon = new ImageIcon(getClass().getResource("/image/" + product.getImage()));
 
             // Resize the image
             Image img = icon.getImage();  
@@ -277,16 +277,18 @@ public class menu extends javax.swing.JFrame {
         String date = currentDate.toString();
         int total = Integer.parseInt(totalVariable.getText()) ;
         
+          orderClass.addOrders(myCustomer.getCustomerId() , total , date, "waiting");
+        
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount(); // Get total rows
         
         for (int i = 0; i < rowCount; i++) {
             int product_id = Integer.parseInt(model.getValueAt(i, 0).toString());
             int qty = Integer.parseInt(model.getValueAt(i, 2).toString()); // 2 is the index of the third column
-            productClass.saveSoldItem(product_id, qty);
+            productClass.saveSoldItem(1,product_id, qty);
         }
         
-        orderClass.addOrders(myCustomer.getCustomerId() , total , date, "waiting");
+      
         
         customHooks.alert("success", "order placed. please proceed to payment");
         
