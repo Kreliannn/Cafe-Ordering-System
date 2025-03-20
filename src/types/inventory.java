@@ -10,7 +10,7 @@ package types;
  * @author U
  */
 public class inventory {
-     private int inventoryId;
+    private int inventoryId;
     private int supplierId;
     private int ingredientId;
     private int stocks;

@@ -5,17 +5,19 @@
  */
 package cafe_shop;
 import types.employee;
+import utils.customHooks;
 /**
  *
  * @author U
  */
 public class cashierPage extends javax.swing.JFrame {
-
+    private employee myEmployee;
     /**
      * Creates new form cashierPage
      */
     public cashierPage(employee params) {
         initComponents();
+        this.myEmployee = params;
     }
 
     /**
@@ -36,6 +38,11 @@ public class cashierPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("inventory");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -69,6 +76,10 @@ public class cashierPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        customHooks.changeFrame(this, new inventory(this.myEmployee));
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

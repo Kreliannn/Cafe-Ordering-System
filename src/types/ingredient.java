@@ -12,12 +12,22 @@ package types;
 public class ingredient {
     private int ingredientId;
     private String ingredientName;
+    private int stocks;
+    private String supplier;
+    
+     public ingredient() {
+        
+    }
 
-    public ingredient(int ingredientId, String ingredientName) {
+    public ingredient(int ingredientId, String ingredientName, int stocks, String supplier) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
+        this.stocks = stocks;
+        this.supplier = supplier;
     }
 
     public int getIngredientId() { return ingredientId; }
     public String getIngredientName() { return ingredientName; }
+    public int getStocks() { return stocks; }
+    public String getSupplier() { return supplier; }
 }

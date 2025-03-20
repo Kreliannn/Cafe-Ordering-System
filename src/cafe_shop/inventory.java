@@ -4,18 +4,108 @@
  * and open the template in the editor.
  */
 package cafe_shop;
-
+import utils.customHooks;
+import types.employee;
+import backend.ingredientBackend;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.util.*;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import types.ingredient;
 /**
  *
  * @author U
  */
 public class inventory extends javax.swing.JFrame {
-
+    private employee myEmployee;
+    private ingredientBackend ingredientClass = new ingredientBackend();
+    
     /**
      * Creates new form inventory
      */
-    public inventory() {
+    public inventory(employee params) {
         initComponents();
+        this.myEmployee = params;
+        
+         ArrayList<ingredient> ingredients = ingredientClass.getIngredients();
+         
+         container.setLayout(new GridLayout(0, 3, 10, 10)); // Adjust columns as needed
+         
+         for(ingredient currentIngredient : ingredients)
+         {
+              // create jpanel for container
+            JPanel productPanel = new JPanel();
+            productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS)); // Vertical layout
+            productPanel.setPreferredSize(new Dimension(180, 100)); // Adjusted height
+            productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Border
+            
+       
+
+
+
+            // Product Name
+            JLabel nameLabel = new JLabel("Name: " + currentIngredient.getIngredientName());
+            JLabel supplierLabel = new JLabel("supplier: " + currentIngredient.getSupplier());
+
+            // Stock Label
+            JLabel stockLabel = new JLabel("Stock: ");
+
+
+            JTextField stocksField = new JTextField(1);
+            stocksField.setText(Integer.toString(currentIngredient.getStocks()));
+            
+            
+           
+            
+            // Save Button
+            JButton saveButton = new JButton("restock");
+            saveButton.setPreferredSize(new Dimension(300,30));
+            saveButton.setMinimumSize(new Dimension(300, 30));
+            saveButton.setMaximumSize(new Dimension(300, 30));
+            saveButton.setBackground(new Color(100, 200, 100));
+            saveButton.setForeground(Color.WHITE);
+            
+         
+
+
+
+            // pag pinindot ang save button eto ang mag rurun na code
+            saveButton.addActionListener(e -> {
+              int stocksVal = Integer.parseInt(stocksField.getText());
+              ingredientClass.restock(currentIngredient.getIngredientId(), stocksVal);
+              customHooks.alert("success", "restock ingredient successfully");
+            });
+            
+  
+            // Add components to panel
+          
+            
+            productPanel.add(nameLabel);
+            productPanel.add(supplierLabel);
+            
+         
+            
+            productPanel.add(stockLabel);
+            productPanel.add(stocksField);
+            
+            productPanel.add(saveButton);
+   
+
+            // Add product panel to menu
+            container.add(productPanel);
+         }
+        
+        
+        
     }
 
     /**
@@ -27,21 +117,70 @@ public class inventory extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        container = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
+        container.setLayout(containerLayout);
+        containerLayout.setHorizontalGroup(
+            containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+        );
+        containerLayout.setVerticalGroup(
+            containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 335, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(container);
+
+        jButton1.setText("home");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("INVENTORY");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 699, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(173, 173, 173)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 423, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        customHooks.changeFrame(this, new cashierPage(this.myEmployee));
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -73,11 +212,15 @@ public class inventory extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new inventory().setVisible(true);
+                new inventory(new employee()).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel container;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
