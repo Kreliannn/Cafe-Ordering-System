@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import types.ingredient;
-
+import utils.customHooks;
 /**
  *
  * @author U
@@ -57,4 +57,53 @@ public class ingredientBackend extends database{
         }
     }
     
+    public boolean checkStocks(int ingredient_id, int ingredient_needed)
+    {
+        try{
+            String sql = "SELECT * FROM ingredients join inventory on ingredients.ingredient_id = inventory.ingredient_id where ingredients.ingredient_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, ingredient_id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+               if(ingredient_needed > rs.getInt("stocks"))
+               {
+                   customHooks.alert("error", ("out of " +  rs.getString("ingredient_name")));
+                   return true;
+               }
+            }
+            
+            
+        } catch(Exception e){
+            System.out.println("engreidit error");
+            System.out.println(e);
+        }
+        
+        return false;
+    }
+    
+    
+    public void minusStocks(int ingredient_id, int ingredient_needed)
+    {
+        try{
+            String sql = "SELECT * FROM ingredients join inventory on ingredients.ingredient_id = inventory.ingredient_id where ingredients.ingredient_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, ingredient_id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+              int newStocks = rs.getInt("stocks") - ingredient_needed;
+              this.restock(ingredient_id, newStocks);
+            }
+            
+            
+        } catch(Exception e){
+            System.out.println("engreidit error");
+            System.out.println(e);
+        }
+        
+       
+    }
 }

@@ -6,6 +6,7 @@ import types.product;
 import types.product_ingredient;
 import java.util.*;
 
+
 public class productBackend extends database{
     
     public ArrayList<product> getProducts()
@@ -22,7 +23,7 @@ public class productBackend extends database{
                 int price = rs.getInt("price");
                 String size = rs.getString("size");
                 String image = rs.getString("image");
-                System.out.println(product_name);
+              
                 products.add(new product(product_id, product_name, price, size, image)); 
             }
             
@@ -35,12 +36,12 @@ public class productBackend extends database{
         return products;
     }
     
-    public void saveSoldItem(int order_id, int product_id, int quantity)
+    public void saveSoldItem(String order_id, int product_id, int quantity)
     {
         try{
             String sql = "INSERT INTO order_item (order_id, product_id, quantity) VALUES ( ?,?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, order_id);
+            stmt.setString(1, order_id);
             stmt.setInt(2, product_id);
             stmt.setInt(3, quantity);
             stmt.executeUpdate();
@@ -50,6 +51,65 @@ public class productBackend extends database{
     }
     
     
-   
+    public boolean checkIngredient(int product_id, int qty)
+    {
+        try{
+            String sql = "SELECT * FROM product_ingredients where product_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, product_id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+
+            while (rs.next()) {
+               int ingredient_needed = rs.getInt("ingredient_needed") * qty;
+               int ingredient_id = rs.getInt("ingredient_id");
+               
+               ingredientBackend ingredientClass = new ingredientBackend();
+              
+               if(ingredientClass.checkStocks(ingredient_id, ingredient_needed))
+               {
+                   return true;
+               }
+           
+               
+            }
+            
+            
+        } catch(Exception e){
+            System.out.println("product error");
+            System.out.println(e);
+        }
+        
+        return false;
+    }
+    
+    public void changeItemStocks(int product_id, int qty)
+    {
+        try{
+            String sql = "SELECT * FROM product_ingredients where product_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, product_id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+
+            while (rs.next()) {
+                int itemCountCost = rs.getInt("ingredient_needed") * qty;
+                int ingredient_id = rs.getInt("ingredient_id");
+                
+                ingredientBackend ingredientClass = new ingredientBackend();
+                
+                ingredientClass.minusStocks(ingredient_id, itemCountCost);
+            }
+            
+            
+        } catch(Exception e){
+            System.out.println("product error");
+            System.out.println(e);
+        }
+        
+    
+    }
     
 }

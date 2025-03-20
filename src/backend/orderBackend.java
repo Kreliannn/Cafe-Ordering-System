@@ -15,16 +15,17 @@ import types.customer;
  */
 public class orderBackend extends database {
     
-    public void addOrders(int customer_id, int total_amount, String order_date, String order_status)
+    public void addOrders(String orderId, int customer_id, int total_amount, String order_date, String order_status)
     {
         try{
-            String sql = "INSERT INTO orders (customer_id, employee_id, total_amount, order_date, order_status) VALUES (?,?,?, ?, ?)";
+            String sql = "INSERT INTO orders ( customer_id, employee_id, total_amount, order_date, order_status, order_id) VALUES (?,?,?,?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, customer_id);
             stmt.setInt(2, 1); // test
             stmt.setInt(3, total_amount);
             stmt.setString(4,order_date);
             stmt.setString(5,order_status);
+            stmt.setString(6,orderId);
             stmt.executeUpdate();
         } catch(Exception e){
             System.out.println(e);

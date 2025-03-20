@@ -20,6 +20,7 @@ import backend.customerBackend;
 import backend.orderBackend;
 import backend.productBackend;
 import java.time.LocalDate;
+import backend.ingredientBackend;
 
 public class menu extends javax.swing.JFrame {
     
@@ -27,7 +28,8 @@ public class menu extends javax.swing.JFrame {
     private productBackend productClass = new productBackend();
     private customerBackend customerBackend = new customerBackend();
     private orderBackend orderClass = new orderBackend();
- 
+    private ingredientBackend ingredientClass = new ingredientBackend();
+    
     public menu(customer parameter) {
         initComponents();
         this.myCustomer = parameter;
@@ -81,6 +83,13 @@ public class menu extends javax.swing.JFrame {
             // eto ang mag rurun pag pinindot ang add to cart button
             buyButton.addActionListener(e -> {
                 int quantity =  Integer.parseInt(quantityField.getText()); 
+                
+                quantityField.setText("");
+                
+                if(productClass.checkIngredient(product.getProductId(), quantity))
+                {
+                    return;
+                }
                 
                 int price = product.getPrice();
                 String name = product.getProductName();
@@ -276,8 +285,9 @@ public class menu extends javax.swing.JFrame {
         LocalDate currentDate = LocalDate.now();
         String date = currentDate.toString();
         int total = Integer.parseInt(totalVariable.getText()) ;
+        String order_id = UUID.randomUUID().toString();
         
-          orderClass.addOrders(myCustomer.getCustomerId() , total , date, "waiting");
+        orderClass.addOrders(order_id, myCustomer.getCustomerId() , total , date, "waiting");
         
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int rowCount = model.getRowCount(); // Get total rows
@@ -285,7 +295,8 @@ public class menu extends javax.swing.JFrame {
         for (int i = 0; i < rowCount; i++) {
             int product_id = Integer.parseInt(model.getValueAt(i, 0).toString());
             int qty = Integer.parseInt(model.getValueAt(i, 2).toString()); // 2 is the index of the third column
-            productClass.saveSoldItem(1,product_id, qty);
+            productClass.saveSoldItem(order_id ,product_id, qty);
+            productClass.changeItemStocks(product_id,qty );
         }
         
       
