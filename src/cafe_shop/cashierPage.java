@@ -20,6 +20,8 @@ import backend.orderBackend;
 import java.awt.GridLayout;
 import java.util.*;
 import backend.customerBackend;
+import java.awt.*;
+import javax.swing.*;
 /**
  *
  * @author U
@@ -37,60 +39,87 @@ public class cashierPage extends javax.swing.JFrame {
         
         ArrayList<order> orders = orderClass.getOrders();
         
-        orderContainer.setLayout(new GridLayout(0, 1, 10, 10)); // Adjust columns as needed
-        
-        for(order currrentOrder : orders)
-         {
-              // create jpanel for container
+        orderContainer.setLayout(new GridLayout(0, 1, 15, 15)); // Increased spacing
+        orderContainer.setBackground(new Color(230, 230, 230)); // Light background
+
+        for(order currrentOrder : orders) {
             JPanel productPanel = new JPanel();
-            productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS)); // Vertical layout
-            productPanel.setPreferredSize(new Dimension(180, 100)); // Adjusted height
-            productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Border
-            
-       
+            productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS));
+            productPanel.setPreferredSize(new Dimension(200, 130));
+            productPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(180, 180, 180), 2),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+            ));
+            productPanel.setBackground(new Color(240, 240, 240));
 
+            JLabel customerText = new JLabel("Customer: " + customerBackend.getName(currrentOrder.getCustomerId()));
+            JLabel orderIdText = new JLabel("Order ID: " + currrentOrder.getOrderId());
+            JLabel dateText = new JLabel("Date: " + currrentOrder.getOrderDate());
+            JLabel totalText = new JLabel("Total: " + currrentOrder.getTotalAmount());
 
+            Font textFont = new Font("Arial", Font.BOLD, 14);
+            customerText.setFont(textFont);
+            orderIdText.setFont(new Font("Arial", Font.PLAIN, 13));
+            dateText.setFont(new Font("Arial", Font.PLAIN, 13));
+            totalText.setFont(new Font("Arial", Font.PLAIN, 13));
+            totalText.setForeground(new Color(50, 50, 50));
 
-            // Product Name
-            JLabel customerText = new JLabel("customer: " + customerBackend.getName(currrentOrder.getCustomerId()));
-            JLabel orderIdText = new JLabel("order_id: " + currrentOrder.getOrderId());
-            JLabel dateText = new JLabel("date: " + currrentOrder.getOrderDate() );
-            JLabel totalText = new JLabel("total: " + currrentOrder.getTotalAmount());
+            JButton saveButton = new JButton("Payed");
+            JButton rejectButton = new JButton("Remove");
 
-            
-            // Save Button
-            JButton saveButton = new JButton("complete");
-            saveButton.setPreferredSize(new Dimension(300,30));
-            saveButton.setMinimumSize(new Dimension(300, 30));
-            saveButton.setMaximumSize(new Dimension(300, 30));
+            saveButton.setPreferredSize(new Dimension(100, 30));
+            rejectButton.setPreferredSize(new Dimension(100, 30));
+
             saveButton.setBackground(new Color(100, 200, 100));
+            rejectButton.setBackground(new Color(200, 100, 100));
             saveButton.setForeground(Color.WHITE);
-            
-         
+            rejectButton.setForeground(Color.WHITE);
+            saveButton.setBorderPainted(false);
+            rejectButton.setBorderPainted(false);
+            saveButton.setOpaque(true);
+            rejectButton.setOpaque(true);
 
-
-
-            // pag pinindot ang save button eto ang mag rurun na code
-            saveButton.addActionListener(e -> {
-              
+            saveButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    saveButton.setBackground(new Color(80, 180, 80));
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    saveButton.setBackground(new Color(100, 200, 100));
+                }
             });
-            
-  
-            // Add components to panel
-          
-            
+
+            rejectButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    rejectButton.setBackground(new Color(180, 80, 80));
+                }
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    rejectButton.setBackground(new Color(200, 100, 100));
+                }
+            });
+
+            saveButton.addActionListener(e -> {
+                // Action when Payed button is clicked
+            });
+
+            rejectButton.addActionListener(e -> {
+                // Action when Remove button is clicked
+            });
+
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+            buttonPanel.add(saveButton);
+            buttonPanel.add(rejectButton);
+            buttonPanel.setOpaque(false);
+
             productPanel.add(customerText);
             productPanel.add(orderIdText);
             productPanel.add(dateText);
             productPanel.add(totalText);
-            
-            productPanel.add(saveButton);
-   
+            productPanel.add(buttonPanel);
 
-            // Add product panel to menu
             orderContainer.add(productPanel);
-         }
-        
+        }
+
         
         
         

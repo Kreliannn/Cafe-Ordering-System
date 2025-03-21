@@ -39,7 +39,7 @@ public class orderBackend extends database {
     {
         ArrayList<order> orders = new ArrayList();
         try{
-            String sql = "SELECT * FROM orders WHERE order_status = waiting";
+            String sql = "SELECT * FROM orders WHERE order_status = 'waiting'";
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
