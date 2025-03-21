@@ -8,6 +8,8 @@ package backend;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import types.customer;
+import java.util.*;
+import types.order;
 
 /**
  *
@@ -32,28 +34,29 @@ public class orderBackend extends database {
         }
     }
     
-    /*
-    public customer getAccount(String username, String password)
+    
+    public ArrayList<order> getOrders()
     {
+        ArrayList<order> orders = new ArrayList();
         try{
-            String sql = "SELECT * FROM customer WHERE username = ? and password = ?";
+            String sql = "SELECT * FROM orders WHERE order_status = waiting";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, username);
-            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int idVal = rs.getInt("customer_id");
-                String nameVal = rs.getString("name");
-                String usernameVal = rs.getString("username");
-                String passwordVal = rs.getString("password");
-                return new customer(idVal, nameVal, usernameVal, passwordVal);
+                String orderId = rs.getString("order_id");
+                int customerId = rs.getInt("customer_id");
+                int employeeId = rs.getInt("employee_id");
+                int totalAmount = rs.getInt("total_amount");
+                String orderDate = rs.getString("order_date");
+                String orderStatus = rs.getString("order_status");
+                orders.add(new order(orderId,customerId, employeeId, totalAmount, orderDate, orderStatus));
             }
             
         } catch(Exception e){
             System.out.println(e);
         }
         
-        return new customer(0, "", "", "");
-    }*/
+        return orders;
+    }
 }

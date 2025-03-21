@@ -4,20 +4,96 @@
  * and open the template in the editor.
  */
 package cafe_shop;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import types.order;
 import types.employee;
+import types.ingredient;
 import utils.customHooks;
+import backend.orderBackend;
+import java.awt.GridLayout;
+import java.util.*;
+import backend.customerBackend;
 /**
  *
  * @author U
  */
 public class cashierPage extends javax.swing.JFrame {
     private employee myEmployee;
+    private orderBackend orderClass = new orderBackend();
+    private customerBackend customerBackend = new customerBackend();
     /**
      * Creates new form cashierPage
      */
     public cashierPage(employee params) {
         initComponents();
         this.myEmployee = params;
+        
+        ArrayList<order> orders = orderClass.getOrders();
+        
+        orderContainer.setLayout(new GridLayout(0, 1, 10, 10)); // Adjust columns as needed
+        
+        for(order currrentOrder : orders)
+         {
+              // create jpanel for container
+            JPanel productPanel = new JPanel();
+            productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS)); // Vertical layout
+            productPanel.setPreferredSize(new Dimension(180, 100)); // Adjusted height
+            productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Border
+            
+       
+
+
+
+            // Product Name
+            JLabel customerText = new JLabel("customer: " + customerBackend.getName(currrentOrder.getCustomerId()));
+            JLabel orderIdText = new JLabel("order_id: " + currrentOrder.getOrderId());
+            JLabel dateText = new JLabel("date: " + currrentOrder.getOrderDate() );
+            JLabel totalText = new JLabel("total: " + currrentOrder.getTotalAmount());
+
+            
+            // Save Button
+            JButton saveButton = new JButton("complete");
+            saveButton.setPreferredSize(new Dimension(300,30));
+            saveButton.setMinimumSize(new Dimension(300, 30));
+            saveButton.setMaximumSize(new Dimension(300, 30));
+            saveButton.setBackground(new Color(100, 200, 100));
+            saveButton.setForeground(Color.WHITE);
+            
+         
+
+
+
+            // pag pinindot ang save button eto ang mag rurun na code
+            saveButton.addActionListener(e -> {
+              
+            });
+            
+  
+            // Add components to panel
+          
+            
+            productPanel.add(customerText);
+            productPanel.add(orderIdText);
+            productPanel.add(dateText);
+            productPanel.add(totalText);
+            
+            productPanel.add(saveButton);
+   
+
+            // Add product panel to menu
+            orderContainer.add(productPanel);
+         }
+        
+        
+        
+        
     }
 
     /**
@@ -33,10 +109,14 @@ public class cashierPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        orderContainer = new javax.swing.JPanel();
 
         jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
 
         jButton1.setText("inventory");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -61,7 +141,7 @@ public class cashierPage extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(323, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,17 +153,36 @@ public class cashierPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout orderContainerLayout = new javax.swing.GroupLayout(orderContainer);
+        orderContainer.setLayout(orderContainerLayout);
+        orderContainerLayout.setHorizontalGroup(
+            orderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 477, Short.MAX_VALUE)
+        );
+        orderContainerLayout.setVerticalGroup(
+            orderContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 269, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(orderContainer);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -137,5 +236,7 @@ public class cashierPage extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel orderContainer;
     // End of variables declaration//GEN-END:variables
 }

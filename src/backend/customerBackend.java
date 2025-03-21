@@ -45,4 +45,24 @@ public class customerBackend extends database{
         
         return new customer(0, "", "", "");
     }
+    
+    
+     public String getName(int id)
+    {
+        try{
+            String sql = "SELECT name FROM customer WHERE customer_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("name");
+            }
+            
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        
+        return "user not found";
+    }
 }
