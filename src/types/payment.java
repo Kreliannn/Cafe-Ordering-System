@@ -11,12 +11,12 @@ package types;
  */
 public class payment {
         private int paymentId;
-    private int orderId;
+    private String orderId;
     private String paymentDate;
-    private double paymentAmount;
+    private int paymentAmount;
     private String paymentMethod;
 
-    public payment(int paymentId, int orderId, String paymentDate, double paymentAmount, String paymentMethod) {
+    public payment(int paymentId, String orderId, String paymentDate, int paymentAmount, String paymentMethod) {
         this.paymentId = paymentId;
         this.orderId = orderId;
         this.paymentDate = paymentDate;
@@ -25,8 +25,8 @@ public class payment {
     }
 
     public int getPaymentId() { return paymentId; }
-    public int getOrderId() { return orderId; }
+    public String getOrderId() { return orderId; }
     public String getPaymentDate() { return paymentDate; }
-    public double getPaymentAmount() { return paymentAmount; }
+    public int getPaymentAmount() { return paymentAmount; }
     public String getPaymentMethod() { return paymentMethod; }
 }

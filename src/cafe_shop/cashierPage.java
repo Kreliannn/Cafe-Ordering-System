@@ -22,6 +22,7 @@ import java.util.*;
 import backend.customerBackend;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author U
@@ -78,24 +79,17 @@ public class cashierPage extends javax.swing.JFrame {
             rejectButton.setBorderPainted(false);
             saveButton.setOpaque(true);
             rejectButton.setOpaque(true);
-
-            saveButton.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    saveButton.setBackground(new Color(80, 180, 80));
-                }
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    saveButton.setBackground(new Color(100, 200, 100));
-                }
+            
+            
+            saveButton.addActionListener(e -> {
+                orderClass.changeStatus(currrentOrder.getOrderId(), "serving");
+                
             });
-
-            rejectButton.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    rejectButton.setBackground(new Color(180, 80, 80));
-                }
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    rejectButton.setBackground(new Color(200, 100, 100));
-                }
+            
+            rejectButton.addActionListener(e -> {
+                
             });
+            
 
             saveButton.addActionListener(e -> {
                 // Action when Payed button is clicked
