@@ -12,9 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import types.order;
-import types.employee;
-import types.ingredient;
+import types.*;
 import utils.customHooks;
 import backend.orderBackend;
 import java.awt.GridLayout;
@@ -23,6 +21,7 @@ import backend.customerBackend;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
 /**
  *
  * @author U
@@ -82,12 +81,16 @@ public class cashierPage extends javax.swing.JFrame {
             
             
             saveButton.addActionListener(e -> {
+                LocalDate currentDate = LocalDate.now();
+                String date = currentDate.toString();
                 orderClass.changeStatus(currrentOrder.getOrderId(), "serving");
-                
+                orderClass.addPayment(new payment(0, currrentOrder.getOrderId(), "cash" ,currrentOrder.getTotalAmount(), date ));
+                customHooks.changeFrame(this, new cashierPage(myEmployee));
             });
             
             rejectButton.addActionListener(e -> {
-                
+                orderClass.rejectOrder(currrentOrder.getOrderId());
+                customHooks.changeFrame(this, new cashierPage(myEmployee));
             });
             
 

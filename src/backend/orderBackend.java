@@ -34,7 +34,7 @@ public class orderBackend extends database {
         }
     }
     
-       public void addPayment(payment newPayment)
+    public void addPayment(payment newPayment)
     {
         try{
             String sql = "INSERT INTO payment ( order_id, payment_method, payment_amount, payment_date) VALUES (?,?,?,?)";
@@ -43,6 +43,20 @@ public class orderBackend extends database {
             stmt.setString(2, newPayment.getPaymentMethod()); // test
             stmt.setInt(3, newPayment.getPaymentAmount());
             stmt.setString(4,newPayment.getPaymentDate());
+          
+            stmt.executeUpdate();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
+      public void rejectOrder(String id)
+    {
+        try{
+            String sql = "delete from orders where order_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, id);
+       
           
             stmt.executeUpdate();
         } catch(Exception e){
