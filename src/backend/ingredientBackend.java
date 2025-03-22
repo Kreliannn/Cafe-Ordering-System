@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import types.ingredient;
 import utils.customHooks;
+import java.util.*;
 /**
  *
  * @author U
@@ -124,4 +125,29 @@ public class ingredientBackend extends database{
         }
          return 0;
     }
+     
+      public ArrayList<String> getProductIngredients(int id)
+    {
+        ArrayList<String> ingredients = new ArrayList();
+        try{
+            String sql = "SELECT * FROM product_ingredients  join ingredients on product_ingredients.ingredient_id = ingredients.ingredient_id  where product_ingredients.product_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("ingredient_name");
+                int pcs = rs.getInt("ingredient_needed");
+                ingredients.add(name + "  " + pcs + "pcs"); 
+            }
+            
+            return ingredients;
+            
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        
+        return ingredients;
+    }
+     
 }
