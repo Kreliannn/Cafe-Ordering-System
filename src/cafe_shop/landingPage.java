@@ -17,7 +17,7 @@ public class landingPage extends javax.swing.JFrame {
     public landingPage() {
         initComponents();
         
-        customHooks.changeFrame1(this, new customerOrders());
+        
         
     }
 

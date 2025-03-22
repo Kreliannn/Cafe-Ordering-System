@@ -6,20 +6,22 @@
 package cafe_shop;
 import utils.customHooks;
 import backend.customerBackend;
+import backend.salesBackend;
 /**
  *
  * @author U
  */
 public class Cafe_shop {
 
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String[] args) {
-        landingPage page = new landingPage();
+       customerOrders page = new customerOrders();
         
-       page.setVisible(true);
-       //customerBackend test = new customerBackend();
+       //page.setVisible(true);
+       
+       salesBackend sale = new salesBackend();
+       
+        System.out.println(sale.getSales());
       
     }
     

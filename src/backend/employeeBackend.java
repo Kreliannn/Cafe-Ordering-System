@@ -37,4 +37,23 @@ public class employeeBackend extends database{
         
         return new employee(0, "", "", "");
     }
+      
+      
+      
+      public  int getCount()
+    {
+         try{
+            String sql = "SELECT count(*) as item_count FROM employee;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("item_count");
+            }
+            
+        } catch(Exception e){
+            System.out.println(e);
+        }
+         return 0;
+    }
 }

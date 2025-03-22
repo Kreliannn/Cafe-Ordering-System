@@ -112,4 +112,22 @@ public class productBackend extends database{
     
     }
     
+    
+     public  int getCount()
+    {
+         try{
+            String sql = "SELECT count(*) as item_count FROM products;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("item_count");
+            }
+            
+        } catch(Exception e){
+            System.out.println(e);
+        }
+         return 0;
+    }
+    
 }

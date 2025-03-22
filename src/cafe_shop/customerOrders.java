@@ -35,7 +35,7 @@ public class customerOrders extends javax.swing.JFrame {
      */
     public customerOrders() {
         initComponents();
-        
+        customHooks.changeFrame1(this, new landingPage());
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             
         scheduler.scheduleAtFixedRate(() -> {
