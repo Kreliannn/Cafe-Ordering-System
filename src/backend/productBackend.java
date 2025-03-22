@@ -50,6 +50,20 @@ public class productBackend extends database{
         }
     }
     
+     public void updateProduct(int product_id,String name, int price)
+    {
+        try{
+            String sql = "update products set product_name = ?, price = ? where product_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.setInt(2, price);
+            stmt.setInt(3, product_id);
+            stmt.executeUpdate();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
     
     public boolean checkIngredient(int product_id, int qty)
     {

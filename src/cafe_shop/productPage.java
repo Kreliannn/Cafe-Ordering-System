@@ -22,8 +22,12 @@ import types.product;
 import backend.*;
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
+import types.payment;
+import types.employee;
+import utils.customHooks;
 /**
  *
  * @author U
@@ -31,12 +35,10 @@ import java.util.Random;
 public class productPage extends javax.swing.JFrame {
   private productBackend productClass = new productBackend();
   private ingredientBackend ingredientClass = new ingredientBackend();
-    /**
-     * Creates new form productPage
-     */
-    public productPage() {
+   private employee myEmployee;
+    public productPage(employee params) {
        initComponents();
-
+       this.myEmployee = params;
         ArrayList<product> products = productClass.getProducts();
 
         // Set grid layout
@@ -82,6 +84,13 @@ public class productPage extends javax.swing.JFrame {
 
             JButton saveButton = new JButton("Save Changes");
             saveButton.setPreferredSize(new Dimension(300, 30));
+            
+            
+             saveButton.addActionListener(e -> {
+                    productClass.updateProduct(product.getProductId(), nameField.getText(), Integer.parseInt(priceField.getText()));
+                    customHooks.changeFrame(this, new productPage(myEmployee));
+             });
+
 
             // Add components to panel
             productPanel.add(imageLabel);
@@ -114,6 +123,11 @@ public class productPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout productContainerLayout = new javax.swing.GroupLayout(productContainer);
         productContainer.setLayout(productContainerLayout);
@@ -161,6 +175,10 @@ public class productPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        customHooks.changeFrame(this, new cashierPage(myEmployee));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -191,7 +209,7 @@ public class productPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new productPage().setVisible(true);
+                new productPage(new employee()).setVisible(true);
             }
         });
     }
