@@ -129,5 +129,22 @@ public class productBackend extends database{
         }
          return 0;
     }
+     
+        public  int getSupplier()
+    {
+         try{
+            String sql = "SELECT count(*) as item_count FROM supplier;";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                return rs.getInt("item_count");
+            }
+            
+        } catch(Exception e){
+            System.out.println(e);
+        }
+         return 0;
+    }
     
 }
