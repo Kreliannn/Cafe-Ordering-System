@@ -80,14 +80,16 @@ public class orderBackend extends database {
     }
     
     
-    public ArrayList<order> getOrders()
+    public ArrayList<order> getOrders(String status, String status2 )
     {
         ArrayList<order> orders = new ArrayList();
         try{
-            String sql = "SELECT * FROM orders WHERE order_status = 'waiting'";
+            String sql = "SELECT * FROM orders WHERE order_status = ? or order_status = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, status);
+            stmt.setString(2, status2);
             ResultSet rs = stmt.executeQuery();
-
+            
             while (rs.next()) {
                 String orderId = rs.getString("order_id");
                 int customerId = rs.getInt("customer_id");

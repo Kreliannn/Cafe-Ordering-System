@@ -37,7 +37,7 @@ public class cashierPage extends javax.swing.JFrame {
         initComponents();
         this.myEmployee = params;
         
-        ArrayList<order> orders = orderClass.getOrders();
+        ArrayList<order> orders = orderClass.getOrders("waiting", "none");
         
         orderContainer.setLayout(new GridLayout(0, 1, 15, 15)); // Increased spacing
         orderContainer.setBackground(new Color(230, 230, 230)); // Light background
@@ -135,6 +135,7 @@ public class cashierPage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         orderContainer = new javax.swing.JPanel();
 
@@ -158,6 +159,13 @@ public class cashierPage extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("serving");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -165,6 +173,8 @@ public class cashierPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jButton2)
+                .addGap(15, 15, 15)
+                .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -175,7 +185,8 @@ public class cashierPage extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -222,6 +233,10 @@ public class cashierPage extends javax.swing.JFrame {
        customHooks.changeFrame(this, new landingPage());
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+         customHooks.changeFrame(this, new servingPage(this.myEmployee));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -260,6 +275,7 @@ public class cashierPage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
