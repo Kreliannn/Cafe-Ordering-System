@@ -17,6 +17,8 @@ public class landingPage extends javax.swing.JFrame {
     public landingPage() {
         initComponents();
         
+        customHooks.changeFrame1(this, new customerOrders());
+        
     }
 
  
@@ -94,15 +96,15 @@ public class landingPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        customHooks.changeFrame(this, new register());
+        customHooks.changeFrame1(this, new register());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       customHooks.changeFrame(this, new login());
+       customHooks.changeFrame1(this, new login());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        customHooks.changeFrame(this, new employeeLogin());
+        customHooks.changeFrame1(this, new employeeLogin());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

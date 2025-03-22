@@ -22,6 +22,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.time.LocalDate;
+import javax.swing.SwingUtilities;
+import java.util.concurrent.*;
 /**
  *
  * @author U
@@ -36,90 +38,86 @@ public class cashierPage extends javax.swing.JFrame {
     public cashierPage(employee params) {
         initComponents();
         this.myEmployee = params;
-        
-        ArrayList<order> orders = orderClass.getOrders("waiting", "none");
-        
-        orderContainer.setLayout(new GridLayout(0, 1, 15, 15)); // Increased spacing
-        orderContainer.setBackground(new Color(230, 230, 230)); // Light background
 
-        for(order currrentOrder : orders) {
-            JPanel productPanel = new JPanel();
-            productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS));
-            productPanel.setPreferredSize(new Dimension(200, 130));
-            productPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(180, 180, 180), 2),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
-            ));
-            productPanel.setBackground(new Color(240, 240, 240));
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            ArrayList<order> orders = orderClass.getOrders("waiting", "none");
 
-            JLabel customerText = new JLabel("Customer: " + customerBackend.getName(currrentOrder.getCustomerId()));
-            JLabel orderIdText = new JLabel("Order ID: " + currrentOrder.getOrderId());
-            JLabel dateText = new JLabel("Date: " + currrentOrder.getOrderDate());
-            JLabel totalText = new JLabel("Total: " + currrentOrder.getTotalAmount());
+            SwingUtilities.invokeLater(() -> {
+                orderContainer.removeAll(); // Clear previous orders
+                orderContainer.setLayout(new GridLayout(0, 1, 15, 15));
+                orderContainer.setBackground(new Color(230, 230, 230));
 
-            Font textFont = new Font("Arial", Font.BOLD, 14);
-            customerText.setFont(textFont);
-            orderIdText.setFont(new Font("Arial", Font.PLAIN, 13));
-            dateText.setFont(new Font("Arial", Font.PLAIN, 13));
-            totalText.setFont(new Font("Arial", Font.PLAIN, 13));
-            totalText.setForeground(new Color(50, 50, 50));
+                for (order currrentOrder : orders) {
+                    JPanel productPanel = new JPanel();
+                    productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS));
+                    productPanel.setPreferredSize(new Dimension(200, 130));
+                    productPanel.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(180, 180, 180), 2),
+                        BorderFactory.createEmptyBorder(10, 10, 10, 10)
+                    ));
+                    productPanel.setBackground(new Color(240, 240, 240));
 
-            JButton saveButton = new JButton("Payed");
-            JButton rejectButton = new JButton("Remove");
+                    JLabel customerText = new JLabel("Customer: " + customerBackend.getName(currrentOrder.getCustomerId()));
+                    JLabel orderIdText = new JLabel("Order ID: " + currrentOrder.getOrderId());
+                    JLabel dateText = new JLabel("Date: " + currrentOrder.getOrderDate());
+                    JLabel totalText = new JLabel("Total: " + currrentOrder.getTotalAmount());
 
-            saveButton.setPreferredSize(new Dimension(100, 30));
-            rejectButton.setPreferredSize(new Dimension(100, 30));
+                    Font textFont = new Font("Arial", Font.BOLD, 14);
+                    customerText.setFont(textFont);
+                    orderIdText.setFont(new Font("Arial", Font.PLAIN, 13));
+                    dateText.setFont(new Font("Arial", Font.PLAIN, 13));
+                    totalText.setFont(new Font("Arial", Font.PLAIN, 13));
+                    totalText.setForeground(new Color(50, 50, 50));
 
-            saveButton.setBackground(new Color(100, 200, 100));
-            rejectButton.setBackground(new Color(200, 100, 100));
-            saveButton.setForeground(Color.WHITE);
-            rejectButton.setForeground(Color.WHITE);
-            saveButton.setBorderPainted(false);
-            rejectButton.setBorderPainted(false);
-            saveButton.setOpaque(true);
-            rejectButton.setOpaque(true);
-            
-            
-            saveButton.addActionListener(e -> {
-                LocalDate currentDate = LocalDate.now();
-                String date = currentDate.toString();
-                orderClass.changeStatus(currrentOrder.getOrderId(), "serving");
-                orderClass.addPayment(new payment(0, currrentOrder.getOrderId(), "cash" ,currrentOrder.getTotalAmount(), date ));
-                customHooks.changeFrame(this, new cashierPage(myEmployee));
+                    JButton saveButton = new JButton("Payed");
+                    JButton rejectButton = new JButton("Remove");
+
+                    saveButton.setPreferredSize(new Dimension(100, 30));
+                    rejectButton.setPreferredSize(new Dimension(100, 30));
+
+                    saveButton.setBackground(new Color(100, 200, 100));
+                    rejectButton.setBackground(new Color(200, 100, 100));
+                    saveButton.setForeground(Color.WHITE);
+                    rejectButton.setForeground(Color.WHITE);
+                    saveButton.setBorderPainted(false);
+                    rejectButton.setBorderPainted(false);
+                    saveButton.setOpaque(true);
+                    rejectButton.setOpaque(true);
+
+                    saveButton.addActionListener(e -> {
+                        LocalDate currentDate = LocalDate.now();
+                        String date = currentDate.toString();
+                        orderClass.changeStatus(currrentOrder.getOrderId(), "serving");
+                        orderClass.addPayment(new payment(0, currrentOrder.getOrderId(), "cash", currrentOrder.getTotalAmount(), date));
+                      
+                    });
+
+                    rejectButton.addActionListener(e -> {
+                        orderClass.rejectOrder(currrentOrder.getOrderId());
+                    
+                    });
+
+                    JPanel buttonPanel = new JPanel();
+                    buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+                    buttonPanel.add(saveButton);
+                    buttonPanel.add(rejectButton);
+                    buttonPanel.setOpaque(false);
+
+                    productPanel.add(customerText);
+                    productPanel.add(orderIdText);
+                    productPanel.add(dateText);
+                    productPanel.add(totalText);
+                    productPanel.add(buttonPanel);
+
+                    orderContainer.add(productPanel);
+                }
+
+                orderContainer.revalidate();
+                orderContainer.repaint();
             });
-            
-            rejectButton.addActionListener(e -> {
-                orderClass.rejectOrder(currrentOrder.getOrderId());
-                customHooks.changeFrame(this, new cashierPage(myEmployee));
-            });
-            
 
-            saveButton.addActionListener(e -> {
-                // Action when Payed button is clicked
-            });
-
-            rejectButton.addActionListener(e -> {
-                // Action when Remove button is clicked
-            });
-
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-            buttonPanel.add(saveButton);
-            buttonPanel.add(rejectButton);
-            buttonPanel.setOpaque(false);
-
-            productPanel.add(customerText);
-            productPanel.add(orderIdText);
-            productPanel.add(dateText);
-            productPanel.add(totalText);
-            productPanel.add(buttonPanel);
-
-            orderContainer.add(productPanel);
-        }
-
-        
-        
-        
+        }, 0, 5, TimeUnit.SECONDS); // Fetch and refresh every 2 seconds
     }
 
     /**

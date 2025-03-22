@@ -41,6 +41,11 @@ public class customHooks {
       newPage.setVisible(true); // Show the new frame
     }
     
+    public static void changeFrame1(JFrame currentPage, JFrame newPage) {
+      newPage.setLocationRelativeTo(null); // Center the new frame
+      newPage.setVisible(true); // Show the new frame
+    }
+    
     public static void imageUpload()
     {
         JFileChooser fileChooser = new JFileChooser();
