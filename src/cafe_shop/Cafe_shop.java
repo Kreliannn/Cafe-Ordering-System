@@ -17,11 +17,10 @@ public class Cafe_shop {
     public static void main(String[] args) {
        customerOrders page = new customerOrders();
         
-       //page.setVisible(true);
+       page.setVisible(true);
+  
        
-       salesBackend sale = new salesBackend();
        
-        System.out.println(sale.getSales());
       
     }
     

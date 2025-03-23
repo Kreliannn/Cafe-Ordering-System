@@ -167,6 +167,11 @@ public class cashierPage extends javax.swing.JFrame {
         });
 
         dashboard.setText("dashboard");
+        dashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("products");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -245,7 +250,7 @@ public class cashierPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       customHooks.changeFrame(this, new landingPage());
+         this.dispose(); 
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -255,6 +260,10 @@ public class cashierPage extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         customHooks.changeFrame(this, new productPage(this.myEmployee));
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
+       customHooks.changeFrame(this, new dashboard(this.myEmployee));
+    }//GEN-LAST:event_dashboardActionPerformed
 
     /**
      * @param args the command line arguments

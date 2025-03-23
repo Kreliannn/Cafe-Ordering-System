@@ -5,21 +5,23 @@
  */
 package cafe_shop;
 import backend.*;
+import utils.customHooks;
+import types.employee;
 /**
  *
  * @author U
  */
 public class dashboard extends javax.swing.JFrame {
-    
+    private employee myEmployee;
     private customerBackend customerClass = new customerBackend();
     private salesBackend salesClass = new salesBackend();
     private ingredientBackend ingredientClass = new ingredientBackend();
     private employeeBackend employeerClass = new employeeBackend();
     private productBackend productClass = new productBackend();
     
-    public dashboard() {
+    public dashboard(employee params) {
         initComponents();
-        
+          this.myEmployee =  params;
         sales.setText(Integer.toString(salesClass.getSales()));
         employee.setText(Integer.toString(employeerClass.getCount()));
         customer.setText(Integer.toString(customerClass.getCount()));
@@ -85,6 +87,11 @@ public class dashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("back");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setText("Seranatea Dashboard");
@@ -330,6 +337,10 @@ public class dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        customHooks.changeFrame(this, new cashierPage(this.myEmployee));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -360,7 +371,7 @@ public class dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new dashboard().setVisible(true);
+                new dashboard(new employee()).setVisible(true);
             }
         });
     }
