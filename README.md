@@ -2,6 +2,12 @@
 
 A **self-ordering kiosk system** for café stores that allows customers to **place orders before proceeding to the cashier**. Orders automatically appear on the cashier’s screen, where they can update the order status in real time.  
 
+## ⚠️ <span style="color:red">Warning</span>  
+
+🚨 <span style="color:red">**This repository does not include database file. you can message me on tiktok for the missing sql file.  
+🔗 [Contact me on TikTok](https://www.tiktok.com/@krelq)  
+
+
 ## ✨ Features  
 
 - 🛒 **Self-Ordering Kiosk** – Customers can browse the menu and place orders before paying.  
@@ -12,3 +18,5 @@ A **self-ordering kiosk system** for café stores that allows customers to **pla
 - ✏️ **Product Management** – Admin can edit product details like name and price.  
 - 📊 **Restock System** – Allows easy replenishment of ingredient stock.  
 
+
+## 📸 Preview  
